@@ -1,8 +1,8 @@
 const $ = (selector) => document.querySelector(selector)
 
-Number.prototype.times = function(func) {
+const timesDo = function(number, func) {
   let count = 0
-  while(count < this) {
+  while(count < number) {
     func(count)
     count++
   }
@@ -12,13 +12,13 @@ const width = 200
 const height = 100
 const $grid = $('#grid')
 
-height.times(row => {
+timesDo(height, row => {
   const rowDiv = document.createElement('div')
   rowDiv.className = 'row'
   rowDiv.id = `row-${row}`
   $grid.append(rowDiv)
 
-  width.times(col => {
+  timesDo(width, col => {
     const cellDiv = document.createElement('div')
     cellDiv.className = 'cell'
     cellDiv.id = `cell-${col}-${row}`
