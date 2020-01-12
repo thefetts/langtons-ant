@@ -31,6 +31,12 @@ const Headings = {
   S: { left: 'E', right: 'W', moveAxis: 'x' }
 }
 
+const Colors = ['black', 'green', 'red', 'blue', 'yellow', 'orange', 'purple', 'pink']
+
+function resetClassList(el) {
+  el.classList.remove('on', ...Colors)
+}
+
 class Ant {
   x
   y
@@ -52,7 +58,7 @@ class Ant {
     if(el.classList.contains('on')) {
       this.changePosition('left')
       this.heading = Headings[this.heading.left]
-      el.classList.remove('on', 'black', 'red', 'green', 'blue')
+      resetClassList(el)
     } else {
       this.changePosition('right')
       this.heading = Headings[this.heading.right]
@@ -73,17 +79,44 @@ class Ant {
   }
 }
 
-const ant = new Ant({x: 110})
-const ant2 = new Ant({x: 90, color: 'green'})
-const ant3 = new Ant({y: 40, color: 'red'})
-const ant4 = new Ant({y: 60, color: 'blue'})
-const ants = [ant, ant2, ant3, ant4]
+const ants = []
 
-const interval = setInterval(() => {
-  try {
-    ants.forEach(ant => ant.move())
-  } catch (e) {
-    console.log(`Error: ${e}`)
-    clearInterval(interval)
+let interval
+function go() {
+  if(!interval) {
+    interval = setInterval(() => {
+      try {
+        ants.forEach(ant => ant.move())
+      } catch (e) {
+        console.log(`Error: ${e}`)
+        clearInterval(interval)
+      }
+    }, 20)
   }
-}, 20)
+}
+
+function stop() {
+  clearInterval(interval)
+  interval = undefined
+}
+
+function reset() {
+  stop()
+  document.querySelectorAll('.on').forEach(el => resetClassList(el))
+  ants.splice(0, ants.length)
+}
+
+document.querySelector('#go').addEventListener('click', go)
+document.querySelector('#stop').addEventListener('click', stop)
+document.querySelector('#reset').addEventListener('click', reset)
+document.querySelectorAll('.cell').forEach(el => el.addEventListener('click', event => {
+  const el = event.toElement
+  el.classList.add('start')
+  const idBits = el.id.split('-')
+  const options = {
+    x: idBits[1],
+    y: idBits[2],
+    color: Colors[ants.length % Colors.length]
+  }
+  ants.push(new Ant(options))
+}))
