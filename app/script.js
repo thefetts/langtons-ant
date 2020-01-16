@@ -38,11 +38,6 @@ function resetClassList(el) {
 }
 
 class Ant {
-  x
-  y
-  color
-  heading = Headings.E
-
   constructor({
     x = Math.floor(width / 2),
     y = Math.floor(height / 2),
@@ -51,6 +46,7 @@ class Ant {
     this.x = x
     this.y = y
     this.color = color
+    this.heading = Headings.E
   }
 
   move() {
@@ -88,7 +84,7 @@ function go() {
       try {
         ants.forEach(ant => ant.move())
       } catch (e) {
-        console.log(`Error: ${e}`)
+        console.log(`An ant made it to the edge! ~FIN~`)
         clearInterval(interval)
       }
     }, 20)
@@ -110,7 +106,7 @@ document.querySelector('#go').addEventListener('click', go)
 document.querySelector('#stop').addEventListener('click', stop)
 document.querySelector('#reset').addEventListener('click', reset)
 document.querySelectorAll('.cell').forEach(el => el.addEventListener('click', event => {
-  const el = event.toElement
+  const el = event.target
   el.classList.add('start')
   const idBits = el.id.split('-')
   const options = {
