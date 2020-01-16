@@ -25,13 +25,14 @@ timesDo(height, row => {
 })
 
 const Headings = {
-  E: { left: 'N', right: 'S', moveAxis: 'y' },
-  W: { left: 'S', right: 'N', moveAxis: 'y' },
-  N: { left: 'W', right: 'E', moveAxis: 'x' },
-  S: { left: 'E', right: 'W', moveAxis: 'x' }
+  E: { left: 'N', right: 'S' },
+  W: { left: 'S', right: 'N' },
+  N: { left: 'W', right: 'E' },
+  S: { left: 'E', right: 'W' }
 }
 
 const Colors = ['black', 'green', 'red', 'blue', 'yellow', 'orange', 'purple', 'pink']
+Colors.selectors = Colors.map(c=>`.${c}`).join(',')
 
 function resetClassList(el) {
   el.classList.remove('on', ...Colors)
@@ -47,6 +48,8 @@ class Ant {
     this.y = y
     this.color = color
     this.heading = Headings.E
+    const el = document.querySelector(`#cell-${(this.x)}-${this.y}`)
+    el.classList.add(this.color)
   }
 
   move() {
@@ -63,14 +66,11 @@ class Ant {
   }
 
   changePosition(direction) {
-    if (this.heading[direction] === 'N') {
-      this.y--
-    } else if (this.heading[direction] === 'S') {
-      this.y++
-    } else if (this.heading[direction] === 'W') {
-      this.x--
-    } else if (this.heading[direction] === 'E') {
-      this.x++
+    switch(this.heading[direction]) {
+      case 'N': this.y--; break
+      case 'S': this.y++; break
+      case 'W': this.x--; break
+      case 'E': this.x++
     }
   }
 }
@@ -84,7 +84,7 @@ function go() {
       try {
         ants.forEach(ant => ant.move())
       } catch (e) {
-        console.log(`An ant made it to the edge! ~FIN~`)
+        alert(`An ant made it to the edge! ~FIN~`)
         clearInterval(interval)
       }
     }, 20)
@@ -98,7 +98,8 @@ function stop() {
 
 function reset() {
   stop()
-  document.querySelectorAll('.on').forEach(el => resetClassList(el))
+  const colorsSelector = `.on,${Colors.selectors}`
+  document.querySelectorAll(colorsSelector).forEach(el => resetClassList(el))
   ants.splice(0, ants.length)
 }
 
