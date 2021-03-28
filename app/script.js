@@ -100,16 +100,14 @@ function stop() {
   interval = undefined
 }
 
-function reset() {
+document.querySelector('#go').addEventListener('click', go)
+document.querySelector('#stop').addEventListener('click', stop)
+document.querySelector('#reset').addEventListener('click', () => {
   stop()
   const colorsSelector = `.on,${Colors.selectors}`
   document.querySelectorAll(colorsSelector).forEach(el => resetClassList(el))
   ants.splice(0, ants.length)
-}
-
-document.querySelector('#go').addEventListener('click', go)
-document.querySelector('#stop').addEventListener('click', stop)
-document.querySelector('#reset').addEventListener('click', reset)
+})
 document.querySelectorAll('.cell').forEach(el => el.addEventListener('click', event => {
   const el = event.target
   el.classList.add('start')
