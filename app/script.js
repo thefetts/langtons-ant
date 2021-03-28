@@ -39,6 +39,17 @@ function resetClassList(el) {
   el.classList.remove('on', ...Colors)
 }
 
+class Cell {
+  constructor(x, y, color) {
+    this.element = document.querySelector(`#cell-${(x)}-${y}`)
+    this.setColor(color)
+  }
+
+  setColor(color) {
+    this.element.classList.add(color)
+  }
+}
+
 class Ant {
   constructor({
     x = Math.floor(width / 2),
@@ -49,12 +60,11 @@ class Ant {
     this.y = y
     this.color = color
     this.heading = Headings.E
-    const el = document.querySelector(`#cell-${(this.x)}-${this.y}`)
-    el.classList.add(this.color)
+    this.cell = new Cell(x, y, color)
   }
 
   move() {
-    const el = document.querySelector(`#cell-${(this.x)}-${this.y}`)
+    const el = this.cell.element
     if(el.classList.contains('on')) {
       this.changePosition('left')
       this.heading = Headings[this.heading.left]
