@@ -8,6 +8,7 @@ const timesDo = function(number, func) {
 
 const width = 200
 const height = 100
+const delay = 20
 const $grid = document.querySelector('#grid')
 
 timesDo(height, row => {
@@ -87,7 +88,7 @@ function go() {
         alert(`An ant made it to the edge! ~FIN~`)
         clearInterval(interval)
       }
-    }, 20)
+    }, delay)
   }
 }
 
