@@ -82,8 +82,13 @@ class Ant {
 const ants = []
 
 let interval
-function go() {
-  if(!interval) {
+function stop() {
+  clearInterval(interval)
+  interval = undefined
+}
+
+document.querySelector('#go').addEventListener('click', () => {
+  if (!interval) {
     interval = setInterval(() => {
       try {
         ants.forEach(ant => ant.move())
@@ -93,14 +98,7 @@ function go() {
       }
     }, delay)
   }
-}
-
-function stop() {
-  clearInterval(interval)
-  interval = undefined
-}
-
-document.querySelector('#go').addEventListener('click', go)
+})
 document.querySelector('#stop').addEventListener('click', stop)
 document.querySelector('#reset').addEventListener('click', () => {
   stop()
