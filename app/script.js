@@ -49,12 +49,15 @@ class Ant {
     this.y = y
     this.color = color
     this.heading = Headings.E
-    const el = document.querySelector(`#cell-${(this.x)}-${this.y}`)
-    el.classList.add(this.color)
+    this.currentCell().classList.add(this.color)
+  }
+
+  currentCell() {
+    return document.querySelector(`#cell-${(this.x)}-${this.y}`)
   }
 
   move() {
-    const el = document.querySelector(`#cell-${(this.x)}-${this.y}`)
+    const el = this.currentCell()
     if(el.classList.contains('on')) {
       this.changePosition('left')
       this.heading = Headings[this.heading.left]
