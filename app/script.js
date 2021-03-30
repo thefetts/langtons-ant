@@ -46,7 +46,12 @@ class Cell {
   }
 
   setColor(color) {
+    this.color = color
     this.element.classList.add(color)
+  }
+
+  activate() {
+    this.element.classList.add('on', this.color)
   }
 }
 
@@ -72,7 +77,7 @@ class Ant {
     } else {
       this.changePosition('right')
       this.heading = Headings[this.heading.right]
-      el.classList.add('on', this.color)
+      this.cell.activate()
     }
   }
 
